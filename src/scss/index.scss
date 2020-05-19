@@ -1,5 +1,27 @@
-$red: green;
+@import "~material-design-icons/iconfont/material-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import "~normalize.css";
+@import "dash_board";
+@import "header";
+@import "toolbar";
+@import "formula";
+@import "table";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  background: $red;
+  font-family: "Roboto Light", sans-serif;
+  font-size: 12px;
+}
+
+.excel {
+  position: relative;
+  color: #888;
+  height: 100%;
+  max-width: 100%;
+  font-size: .8rem;
 }
