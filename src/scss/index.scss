@@ -1,10 +1,12 @@
+@import "variables";
+@import "mixins";
 @import "~material-design-icons/iconfont/material-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import "~normalize.css";
 @import "dash_board";
-@import "header";
 @import "toolbar";
 @import "formula";
+@import "header";
 @import "table";
 
 *{
