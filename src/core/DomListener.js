@@ -16,8 +16,9 @@ export class DomListener {
     this.$listeners.forEach( $listener => {
       const methodName = getMethodName($listener)
 
-      methodError.call(this, this[methodName])
+      methodError.call(this, methodName)
       this[methodName] = this[methodName].bind(this)
+
       this.$root.on($listener, this[methodName])
     })
   }
@@ -26,15 +27,14 @@ export class DomListener {
     this.$listeners.forEach( $listener => {
       const methodName = getMethodName($listener)
 
-      methodError.call(this, this[methodName])
+      methodError.call(methodName, this.name)
       this.$root.remove($listener, this[methodName])
     })
   }
 }
 
-function methodError(method) {
-  const {name} = this
-  if (!method) {
+function methodError(method, name) {
+  if (!this[method]) {
     throw Error(
         `Method ${method} is not implemented in ${name} Component`
     )
