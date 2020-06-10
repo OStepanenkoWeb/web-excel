@@ -15,10 +15,32 @@ class DomJob {
     return this.$domEl.outerHTML.trim()
   }
 
+  get data() {
+    return this.$domEl.dataset
+  }
+
+  findAll(selector) {
+    return this.$domEl.querySelectorAll(selector)
+  }
+
+  closest(selector) {
+    return $(this.$domEl.closest(selector))
+  }
+
+  css(styles = {}) {
+    Object.keys(styles).forEach(key => [
+      this.$domEl.style[key] = styles[key],
+    ])
+  }
+
   clear() {
     this.html('')
 
     return this
+  }
+
+  getCoordinate() {
+    return this.$domEl.getBoundingClientRect()
   }
 
   on(eventType, event) {

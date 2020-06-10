@@ -26,13 +26,14 @@ export class Formula extends ExcelComponent {
   }
 
   removeDOMListeners() {
+    // pass
   }
 
   onInput(event) {
-    console.log('Test listener: ', event.target.textContent.trim())
+    // pass
   }
 
   onClick(event) {
-    console.log('Test click: ', event.target.textContent.trim())
+    // pass
   }
 }

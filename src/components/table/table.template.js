@@ -4,26 +4,38 @@ const LITERS_CODE = { // ABC...Z
 }
 
 const rowInfo = (info) => {
-  return `<div class="row-info">${info}</div>`
+  const resizer = `<div class="row-resize" data-resize="row"></div>`
+
+  return `<div class="row-info">
+             ${info}
+             ${info && resizer}
+          </div>`
 }
 
-const createRow = (content, info= '  ') => {
+const createRow = (content, key, info= '') => {
   const infoCell = rowInfo(info)
 
   return `
-        <div class="row">
+        <div class="row" data-type="resizable" data-rowindex="${key}">
             ${infoCell}
             <div class="row-data">${content}</div>
         </div>
     `
 }
 
-const toCol = (col) => {
-  return `<div class="column">${col}</div>`
+const toCol = (col, index) => {
+  return `<div class="column" data-type="resizable" data-colindex="${index}">
+             ${col}
+             <div class="col-resize" data-resize="col"></div>
+          </div>`
 }
 
-const toCell = (_, i) => {
-  return ` <div class="cell" contenteditable="true">${i}</div>`
+const toCell = (_, index) => {
+  return ` <div 
+             class="cell" 
+             contenteditable="true" 
+             data-cellindex="${index}">${index}
+        </div>`
 }
 
 const createCell = (content, col = 1) => {
@@ -48,7 +60,7 @@ export function generateTable(rowsCount = 15) {
   rows.push(createRow(cols))
 
   for (let i=0; i<rowsCount; i++) {
-    rows.push(createRow(createCell(i + 1, colsCount), i + 1))
+    rows.push(createRow(createCell(i + 1, colsCount), i, i + 1))
   }
 
   return rows.join('')
