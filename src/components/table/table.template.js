@@ -12,7 +12,7 @@ const rowInfo = (info) => {
           </div>`
 }
 
-const createRow = (content, key, info= '') => {
+const createRow = (content = 0, key = 0, info= '') => {
   const infoCell = rowInfo(info)
 
   return `
@@ -30,18 +30,22 @@ const toCol = (col, index) => {
           </div>`
 }
 
-const toCell = (_, index) => {
-  return ` <div 
+const toCell = (rowInd) => {
+  return (_, colIndex) => {
+    return ` <div 
              class="cell" 
              contenteditable="true" 
-             data-cellindex="${index}">${index}
+             data-id="${rowInd}:${colIndex}"
+             data-type="cell"
+             data-cellindex="${colIndex}">${colIndex}
         </div>`
+  }
 }
 
-const createCell = (content, col = 1) => {
+const createCell = (rowInd, col = 1) => {
   const cells = new Array(col).fill('')
 
-  return cells.map(toCell).join('')
+  return cells.map(toCell(rowInd)).join('')
 }
 
 
@@ -59,8 +63,9 @@ export function generateTable(rowsCount = 15) {
 
   rows.push(createRow(cols))
 
-  for (let i=0; i<rowsCount; i++) {
-    rows.push(createRow(createCell(i + 1, colsCount), i, i + 1))
+  for (let rowInd=0; rowInd<rowsCount; rowInd++) {
+    const cell = createCell(rowInd, colsCount)
+    rows.push(createRow(cell, rowInd, rowInd + 1))
   }
 
   return rows.join('')

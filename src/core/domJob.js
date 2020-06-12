@@ -19,6 +19,28 @@ class DomJob {
     return this.$domEl.dataset
   }
 
+  getElementId() {
+    this.data.id
+    const [row, col] = this.data.id.split(':')
+
+    return {
+      row: +row,
+      col: +col,
+    }
+  }
+
+  addClass(className) {
+    this.$domEl.classList.add(className)
+  }
+
+  removeClass(className) {
+    this.$domEl.classList.remove(className)
+  }
+
+  find(selector) {
+    return $(this.$domEl.querySelector(selector))
+  }
+
   findAll(selector) {
     return this.$domEl.querySelectorAll(selector)
   }
