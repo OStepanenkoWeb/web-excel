@@ -20,3 +20,28 @@ export const buildMatrix = (first, end) => {
     return acc
   }, [])
 }
+
+export const nextSelector = (key, {col, row}) => {
+  const MIN_VALUE = 0
+
+  switch (key) {
+    case 'Enter':
+    case 'ArrowDown':
+      row++
+      break
+    case 'Tab':
+    case 'ArrowRight':
+      col++
+      break
+    case 'ArrowUp':
+      row = row - 1 < MIN_VALUE ? row : row - 1
+      break
+    case 'ArrowLeft':
+      col = col - 1 < MIN_VALUE ? col : col - 1
+      break
+    default:
+      break
+  }
+
+  return `[data-id="${row}:${col}"]`
+}

@@ -37,7 +37,7 @@ const toCell = (rowInd) => {
              contenteditable="true" 
              data-id="${rowInd}:${colIndex}"
              data-type="cell"
-             data-cellindex="${colIndex}">${colIndex}
+             data-cellindex="${colIndex}">
         </div>`
   }
 }

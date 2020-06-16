@@ -9,7 +9,7 @@ export class TableController {
     this.dropSelected()
     this.current = element
     this.selectedArea.push(element)
-    addClass(element)
+    addClass(element.setFocus())
   }
   selectArea(elements) {
     this.dropSelected()

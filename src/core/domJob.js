@@ -15,8 +15,27 @@ class DomJob {
     return this.$domEl.outerHTML.trim()
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.$domEl.textContent = text
+
+      return this
+    }
+
+    if (this.$domEl.tagName.toLowerCase() === 'input') {
+      return this.$domEl.value.trim()
+    }
+
+    return this.$domEl.textContent.trim()
+  }
+
   get data() {
     return this.$domEl.dataset
+  }
+
+  setFocus() {
+    this.$domEl.focus()
+    return this
   }
 
   getElementId() {
@@ -31,10 +50,12 @@ class DomJob {
 
   addClass(className) {
     this.$domEl.classList.add(className)
+    return this
   }
 
   removeClass(className) {
     this.$domEl.classList.remove(className)
+    return this
   }
 
   find(selector) {
