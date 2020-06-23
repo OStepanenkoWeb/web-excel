@@ -16,10 +16,18 @@ export class TableController {
     this.selectedArea = [...elements]
     this.selectedArea.forEach(addClass)
   }
+  get ids() {
+    return this.selectedArea.map(el => el.getElementId())
+  }
   dropSelected() {
     this.selectedArea.forEach(removeClass)
     this.selectedArea = []
     this.current = null
+  }
+  applyStyle(style) {
+    this.selectedArea.forEach(cell => {
+      cell.css(style)
+    })
   }
 }
 

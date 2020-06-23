@@ -33,6 +33,17 @@ class DomJob {
     return this.$domEl.dataset
   }
 
+  get classes() {
+    return this.$domEl.classList
+  }
+
+  getSylesByName(styles= []) {
+    return styles.reduce((res, style) => {
+      res[style] = this.$domEl.style[style]
+      return res
+    }, {})
+  }
+
   setFocus() {
     this.$domEl.focus()
     return this

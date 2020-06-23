@@ -21,9 +21,12 @@ export class Formula extends ExcelComponent {
     this.$on('table:select', cell => {
       this.inputFormula.text(cell.text())
     })
-    this.$on('table:input', cell => {
-      this.inputFormula.text(cell.text())
+    this.$subscribe( state => {
+      this.inputFormula.text(state.currentText)
     })
+    // this.$on('table:input', cell => {
+    //   this.inputFormula.text(cell.text())
+    // })
   }
 
   toHtml() {

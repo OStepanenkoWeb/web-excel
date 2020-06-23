@@ -1,13 +1,15 @@
-import {$} from '@core/domJob';
-import {ExcelComponent} from '@core/ExcelComponent';
-import {generateTable} from '@/components/table/table.template';
-import {resizeHandler} from '@/components/table/table.resize';
+import {$} from '@core/domJob'
+import {ExcelComponent} from '@core/ExcelComponent'
+import {generateTable} from '@/components/table/table.template'
+import {resizeHandler} from '@/components/table/table.resize'
 import {
   buildMatrix,
   isCell,
   nextSelector,
   shouldResize} from '@/components/table/helpers'
-import {TableController} from '@/components/table/TableController';
+import {TableController} from '@/components/table/TableController'
+import * as actions from '@/store/actions'
+import {defaultStyles} from '@/constants'
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -37,28 +39,49 @@ export class Table extends ExcelComponent {
 
     this.$on('formula:input', data => {
       this.tableController.current.text(data.text())
+      this.updateTextInStore(data.text())
     })
     this.$on('formula:done', () => {
       this.tableController.current.setFocus()
     })
+    this.$on('toolbar:button', value => {
+      console.log(value)
+      this.tableController.applyStyle(value)
+      this.$dispatch(actions.applyStiles({
+        value,
+        ids: this.tableController.ids,
+      }))
+    })
   }
 
   selectSell(cell) {
+    const styles = cell.getSylesByName(Object.keys(defaultStyles))
     this.tableController.select(cell)
     this.$emit('table:select', cell)
+    console.log('Styles: ', styles)
+    this.$dispatch(actions.changeStyles(styles))
   }
 
   toHtml() {
-    return generateTable()
+    return generateTable(20, this.store.getState())
   }
 
   onClick() {
     // pass
   }
 
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(actions.tableResize(data))
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     } else if (isCell(event)) {
       const targetEvent = $(event.target)
 
@@ -77,7 +100,8 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    this.$emit('table:input', $(event.target))
+    this.updateTextInStore($(event.target).text())
+    // this.$emit('table:input', $(event.target))
   }
 
   onMousemove() {
@@ -86,6 +110,16 @@ export class Table extends ExcelComponent {
 
   onMouseup() {
     // pass
+  }
+
+  updateTextInStore(value) {
+    const {col, row} = this.tableController.current.getElementId()
+    const id = `${row}:${col}`
+
+    this.$dispatch(actions.changeText({
+      id,
+      value,
+    }))
   }
 
   onKeydown(event) {

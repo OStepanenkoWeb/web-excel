@@ -15,7 +15,7 @@ export class DomListener {
   initDomListeners() {
     this.$listeners.forEach( $listener => {
       const methodName = getMethodName($listener)
-      methodError.call(this, methodName)
+      methodError.call(this, methodName, this.name)
       this[methodName] = this[methodName].bind(this)
 
       this.$root.on($listener, this[methodName])
